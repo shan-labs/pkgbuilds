@@ -1,0 +1,8 @@
+.SRCINFO
+*.tar.gz
+*.tar.xz
+*/pkg/
+*/src/
+myrddin/mc/
+*.jar
+*.zst
