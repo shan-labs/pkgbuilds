@@ -1,21 +1,27 @@
 # Maintainer: Anna Ivanova <kalterfx@gmail.com>
+# Patched By: Ryan Roden-Corrent <ryan@rcorre.net>
 
 pkgname=tunnelbear
 pkgver=1.0
-pkgrel=2
+pkgrel=3
 pkgdesc="TunnelBear configuration for Linux"
 arch=(any)
 url="https://tunnelbear.com"
 depends=('openvpn')
 source=("https://s3.amazonaws.com/tunnelbear/linux/openvpn.zip")
-sha256sums=('52706b8c3089152b955ff762e1b7a30c688785034cfc6bb85fcc751ba75ff919')
+sha256sums=('a34a1ead241ee88bd7f5e45e8bce0059602d8facdef0939f5a95d384fded698e')
+install='tunnelbear.install'
 
 function package() {
 	local DESTDIR="$pkgdir/etc/openvpn/client"
 	local INSTALL="install -Dm u=rw,go=r"
 
 	while read filename; do
-		$INSTALL "openvpn/$filename" "$DESTDIR/$filename"
+		# tell each file where to find our credentials
+		sed -i "s/auth-user-pass/auth-user-pass login.key/" "openvpn/$filename"
+		# remove spaces from filenames
+		destname=$(echo $filename | sed "s/ //g" | sed "s/.ovpn/.conf/")
+		$INSTALL "openvpn/$filename" "$DESTDIR/$destname"
 	done < <(find 'openvpn' -type 'f' -printf '%P\n')
 	chmod 750 $DESTDIR
 }

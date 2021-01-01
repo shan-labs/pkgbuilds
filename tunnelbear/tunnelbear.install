@@ -1,0 +1,3 @@
+post_install() {
+    echo "Please create /etc/openvpn/client/login.key with your username on the first line and password on the second"
+}
