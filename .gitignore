@@ -1,9 +1,15 @@
-.SRCINFO
+# PKGBUILDS are supposed to create these...
+*/src/
+*/pkg/
+
+
+# compressed files, usually downloaded as a middle step
 *.tar.gz
 *.tar.xz
-*/pkg/
-*/src/
-myrddin/mc/
 *.jar
 *.zst
 *zip
+
+# replicatable files
+# makepkg --printsrcinfo > .SRCINFO
+.SRCINFO
